@@ -1,11 +1,40 @@
 from django.contrib import admin
 from .models import *
+from django.shortcuts import render
+from django.http import HttpResponse
+from django.template.loader import render_to_string
 # Register your models here.
 class AnetaretAdmin(admin.ModelAdmin):
     list_display = ('id','emer','mbiemer','status_i_kartës','guid')
     list_display_links = ('id','emer','mbiemer','status_i_kartës')
     search_fields = ('emer','mbiemer')
-admin.site.register(Anetaret,AnetaretAdmin)
+    
+    # Add a custom action for printing the card
+    actions = ['print_card']
+
+    def print_card(self, request, queryset):
+        # Generate the print card for each selected user
+        for anetaret in queryset:
+            # Create a context with the unique QR code and other data for the card
+            context = {
+                'anetaret': anetaret,
+                'qr_code_url': anetaret.qr_code_path.url,  # Assuming this field stores the file path of the QR code
+            }
+
+            # Render the print card template (this will generate the HTML for the card)
+            html_content = render_to_string('printcard.html', context)
+
+            # Create the response as a PDF or HTML file (you can use a library like WeasyPrint to generate PDFs if needed)
+            response = HttpResponse(html_content, content_type='application/pdf')
+            response['Content-Disposition'] = 'inline; filename=printcard.pdf'
+
+            return response
+
+        # If nothing is selected, show a message
+        self.message_user(request, "No user selected to print.")
+    print_card.short_description = "Print Selected Cards"
+    
+admin.site.register(Anetaret, AnetaretAdmin)
 
 class PropozimetAdmin(admin.ModelAdmin):
     list_display = ('id','user', 'category', 'created_at', 'cv')  # Add 'cv' to the list_display

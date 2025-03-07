@@ -24,6 +24,12 @@ import requests
 from requests.auth import HTTPDigestAuth
 import json
 import logging
+from django.contrib.staticfiles import finders
+from django.conf import settings
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+from PIL import Image, ImageDraw, ImageFont, ImageWin
+
 load_dotenv()
 
 # Setting up the logger
@@ -63,7 +69,6 @@ def call_another_api(auth_code, number):
         print(f"Error occurred: {str(e)}")
 
 
-# Define the signal for generating the QR code
 def generate_qr_code_for_anetaret(instance):
     # Ensure the GUID-based URL for the QR code
     url = f"http://192.168.10.215:8000/{instance.guid}/"  # The GUID is now part of the actual URL
@@ -83,7 +88,7 @@ def generate_qr_code_for_anetaret(instance):
     qr.save(qr_image_path)
 
     # Optionally, you can add a field in the model to store the path to the QR code image
-    instance.qr_code_path = qr_image_path
+    instance.qr_code_path = os.path.join('qr_code', f'{instance.guid}.png')
     instance.save()
 
 # Signal to automatically generate the QR code after an Anetaret instance is saved
@@ -91,7 +96,71 @@ def generate_qr_code_for_anetaret(instance):
 def generate_qr_code(sender, instance, created, **kwargs):
     if created:
         # Generate the QR code after an Anetaret instance is created
-        threading.Thread(target=generate_qr_code_for_anetaret, args=(instance,)).start()
+        threading.Thread(target=create_access_card(instance), args=(instance,)).start()
+
+
+
+
+
+
+
+
+
+
+
+
+def create_access_card(user_data, template_path="img/KARTA-ADR_page-0002.jpg"):
+    # Load the template
+    template_path = finders.find(template_path)
+    template = Image.open(template_path)
+    
+    # Generate the QR code with user data
+    qr_img = generate_qr(f"https://karta.adr.al/{user_data.guid}/")
+
+    # Define QR code position (adjust based on your template layout)
+    qr_position = (75, 190)  # (x, y) in pixels
+    name_position = (320,300)
+    # Paste the QR code onto the template
+    draw = ImageDraw.Draw(template)
+
+    # Define the font for the text (you can customize it if needed)
+    try:
+        font = ImageFont.truetype("arial.ttf", 16)  # Use a system font or provide a font path
+    except IOError:
+        font = ImageFont.load_default()  # Fallback to default if the font isn't available
+
+    # Get the text from user_data
+    text = f"{user_data.id}. {user_data.emer} {user_data.mbiemer}" 
+
+    # Paste the QR code onto the template
+    template.paste(qr_img, qr_position)
+
+    # Draw the name text on the template at the specified position
+    draw.text(name_position, text, font=font, fill="white")
+    # Save the final image
+    output_path = f"media/qr_code/{user_data.guid}.jpg"
+    template.save(output_path)
+
+    # Show or print the final access card
+    template.show()  # This will open the image preview
+    return output_path
+
+def generate_qr(data, qr_size=100):
+    qr = qrcode.QRCode(
+        version=1,
+        error_correction=qrcode.constants.ERROR_CORRECT_L,
+        box_size=10,
+        border=2,
+    )
+    qr.add_data(data)
+    qr.make(fit=True)
+
+    qr_img = qr.make_image(fill="black", back_color="white")
+    qr_img = qr_img.resize((qr_size, qr_size))  # Resize QR Code
+    return qr_img
+
+
+
 
 
 def login_view(request, guid=None):
@@ -133,25 +202,11 @@ def login_view(request, guid=None):
                 call_another_api(otp, user.nr_tel)  # Send OTP using your own API
 
                 # Generate the unique QR code URL
-                qr_code_url = f"http://192.168.10.215:8000/{guid}/"
 
-                # Generate the QR code for this URL
-                qr = qrcode.make(qr_code_url)
-
-                # Save the QR code to the filesystem for the user
-                qr_code_dir = os.path.join(settings.MEDIA_ROOT, 'qr_codes', str(user.id))  # Create a folder for each user
-                if not os.path.exists(qr_code_dir):  # Create the directory if it doesn't exist
-                    os.makedirs(qr_code_dir)
-
-                # Define the file path for the QR code image (save as GUID.png)
-                qr_image_path = os.path.join(qr_code_dir, f'{user.guid}.png')
-
-                # Save the generated QR code image to the file system
-                qr.save(qr_image_path)
 
                 # Return the path or display the QR code image
                 messages.success(request, "OTP has been sent to your phone and a unique QR code has been generated.")
-                return render(request, 'login.html', {'show_otp': True, 'user_id': user.id, 'qr_image_path': qr_image_path})
+                return render(request, 'login.html', {'show_otp': True, 'user_id': user.id, })
 
             except Anetaret.DoesNotExist:
                 messages.error(request, 'Invalid login link.')
@@ -610,3 +665,24 @@ def komunikimezyrtare(request):
         "komunikimezyrtare":komunikimezyrtare,
     }
     return render(request,"komunikimezyrtare.html",context)   
+
+
+
+
+def printcard(request, guid):
+    # Fetch the Anetaret instance by GUID
+    try:
+        user = Anetaret.objects.get(guid=guid)
+        
+        # The QR code is stored in the 'qr_code_path' or you can generate it based on the GUID
+        qr_code_path = f"qr_code/{user.guid}.png"  # Assuming it's saved in media/qr_code/ folder
+
+        context = {
+            'user': user,  # Passing user data to template if you want to show personal details
+            'qr_code_path': qr_code_path,  # Pass the QR code path for the template to use
+        }
+        return render(request, "printcard.html", context)
+
+    except Anetaret.DoesNotExist:
+        # Handle the case where the user does not exist
+        return render(request, "printcard.html", {'error': 'User not found'})

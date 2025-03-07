@@ -18,4 +18,5 @@ urlpatterns = [
     path("sekretaria/",views.sekretaria,name="sekretaria"),
     path("koordinatori/",views.koordinatori,name="koordinatori"),
     path("komunikime-zyrtare/",views.komunikimezyrtare,name="komunikimezyrtare"),
+    path('print-card/<str:guid>/', views.printcard, name='printcard'),
 ]

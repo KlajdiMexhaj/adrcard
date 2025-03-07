@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aleanca Demokracia e re</title>
+
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+{% block content %}
+
+<!-- Display Static Images -->
+<img src="{% static 'img/KARTA-ADR_page-0001.jpg' %}" alt="Card Image 1">
+<img src="{% static 'img/KARTA-ADR_page-0002.jpg' %}" alt="Card Image 2">
+
+<div class="card-container">
+    <div class="card-header">
+        <h2>Personal Card for {{ anetaret.emer }} {{ anetaret.mbiemer }}</h2>
+    </div>
+    <div class="card-body">
+        <p><strong>ID:</strong> {{ anetaret.id }}</p>
+        <p><strong>Profession:</strong> {{ anetaret.profesioni }}</p>
+        <p><strong>Address:</strong> {{ anetaret.adresa }}</p>
+        <p><strong>Status:</strong> {{ anetaret.status_i_kartës }}</p>
+    </div>
+
+    <!-- Display QR Code -->
+    <div class="qr-code">
+        <h3>Scan QR Code:</h3>
+        <img src="{{ qr_code_url }}" alt="QR Code">
+    </div>
+</div>
+
+{% endblock content %}
