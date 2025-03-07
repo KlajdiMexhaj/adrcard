@@ -30,7 +30,7 @@ load_dotenv()
 logger = logging.getLogger(__name__)
 
 def call_another_api(auth_code, number):
-    api_url = "http://192.168.157.120:80/api/send_sms"  # The actual URL of the API
+    api_url = "http://217.73.131.184:15720/api/send_sms"  # The actual URL of the API
 
     # Digest Authentication credentials
     username = os.getenv("API_USERNAME")
@@ -63,29 +63,38 @@ def call_another_api(auth_code, number):
         print(f"Error occurred: {str(e)}")
 
 
-def generate_qr_code(request, guid):
-    # Ensure that the URL is correctly formatted with the actual GUID
-    url = f"http://192.168.10.215:8000/{guid}/"  # The GUID is now part of the actual URL
+# Define the signal for generating the QR code
+def generate_qr_code_for_anetaret(instance):
+    # Ensure the GUID-based URL for the QR code
+    url = f"http://192.168.10.215:8000/{instance.guid}/"  # The GUID is now part of the actual URL
 
     # Generate the QR code
     qr = qrcode.make(url)
 
     # Define the directory to save the QR code images
-    qr_code_dir = os.path.join(settings.MEDIA_ROOT, 'qr_code_anetaret')  # Save to media/qr_code_anetaret
+    qr_code_dir = os.path.join(settings.MEDIA_ROOT, 'qr_code')  # Save to media/qr_code
     if not os.path.exists(qr_code_dir):  # Create the directory if it doesn't exist
         os.makedirs(qr_code_dir)
 
     # Define the file path for the QR code image (save as GUID.png)
-    qr_image_path = os.path.join(qr_code_dir, f'{guid}.png')
+    qr_image_path = os.path.join(qr_code_dir, f'{instance.guid}.png')
 
     # Save the generated QR code image to the file system
     qr.save(qr_image_path)
 
-    # Return the path where the QR code is saved (for debugging or further use)
-    return HttpResponse(f"QR Code for GUID {guid} saved at: {qr_image_path}", content_type="text/plain")
+    # Optionally, you can add a field in the model to store the path to the QR code image
+    instance.qr_code_path = qr_image_path
+    instance.save()
+
+# Signal to automatically generate the QR code after an Anetaret instance is saved
+@receiver(post_save, sender=Anetaret)
+def generate_qr_code(sender, instance, created, **kwargs):
+    if created:
+        # Generate the QR code after an Anetaret instance is created
+        threading.Thread(target=generate_qr_code_for_anetaret, args=(instance,)).start()
 
 
-def login_view(request, guid=None):  # Capture GUID from URL if provided
+def login_view(request, guid=None):
     if not request.user.is_authenticated:  # Check if the user is logged in
         if request.method == 'POST':
             user_id = request.POST.get('id')  # Get user ID (to check the OTP)
@@ -123,8 +132,26 @@ def login_view(request, guid=None):  # Capture GUID from URL if provided
                 # Send OTP to the user's phone using the external API
                 call_another_api(otp, user.nr_tel)  # Send OTP using your own API
 
-                messages.success(request, "OTP has been sent to your phone.")
-                return render(request, 'login.html', {'show_otp': True, 'user_id': user.id})  # Show the OTP input form
+                # Generate the unique QR code URL
+                qr_code_url = f"http://192.168.10.215:8000/{guid}/"
+
+                # Generate the QR code for this URL
+                qr = qrcode.make(qr_code_url)
+
+                # Save the QR code to the filesystem for the user
+                qr_code_dir = os.path.join(settings.MEDIA_ROOT, 'qr_codes', str(user.id))  # Create a folder for each user
+                if not os.path.exists(qr_code_dir):  # Create the directory if it doesn't exist
+                    os.makedirs(qr_code_dir)
+
+                # Define the file path for the QR code image (save as GUID.png)
+                qr_image_path = os.path.join(qr_code_dir, f'{user.guid}.png')
+
+                # Save the generated QR code image to the file system
+                qr.save(qr_image_path)
+
+                # Return the path or display the QR code image
+                messages.success(request, "OTP has been sent to your phone and a unique QR code has been generated.")
+                return render(request, 'login.html', {'show_otp': True, 'user_id': user.id, 'qr_image_path': qr_image_path})
 
             except Anetaret.DoesNotExist:
                 messages.error(request, 'Invalid login link.')
