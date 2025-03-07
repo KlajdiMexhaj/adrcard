@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+{% extends 'base/index.html' %}
+{% block title %} Organigrama e partisë {% endblock %}
+{% load static %}
+
+
+{% block content %}
+
+
+<section class="propozimet">
+    <a href="{% url 'asambleja' %}" class="propozimetlinks"> 
+        <h1>Asambleja</h1>
+    </a>
+    <a href="{% url 'koordinatori' %}" class="propozimetlinks" ><h2 style="color: white;">  Koordinatori politik Kombëtar</h2></a>
+    <a href="{% url 'sekretaria' %}" class="propozimetlinks"><h1>Sekretari</h1></a>
+
+</section>
+
+{% endblock content %}

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+{% extends 'base/index.html' %}
+{% block title %} Propozimet {% endblock %}
+{% load static %}
+{% block content %}
+
+<section class="propozimet1-card">
+
+
+    <div class="container">
+        {% if propozimet_data %}
+            {% for propozim_data in propozimet_data.values %}
+                {% if not propozim_data.is_expired %}
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ propozim_data.propozim.get_category_display }}</h5>
+                        <p class="card-text">{{ propozim_data.propozim.text }}</p>
+
+                        {% if propozim_data.propozim.cv %}
+                        <a href="{{ propozim_data.propozim.cv.url }}" class="btn btn-primary" target="_blank" style="text-decoration: none;">Download CV</a>
+                        {% endif %}
+
+                        <!-- Display percentage of 'Po' votes -->
+
+
+
+
+
+
+                        <!-- Voting form -->
+
+                        {% if not propozim_data.has_voted %}
+                            <form method="post">
+                                {% csrf_token %}
+                                <input type="hidden" name="propozim_id" value="{{ propozim_data.propozim.id }}">
+                                <label for="po_jo_{{ propozim_data.propozim.id }}">A jeni dakort për këtë propozim?</label>
+                                <div>
+                                    <label>
+                                        <input type="radio" name="agree_{{ propozim_data.propozim.id }}" value="Po" required> Po
+                                    </label>
+                                    <label>
+                                        <input type="radio" name="agree_{{ propozim_data.propozim.id }}" value="Jo" required> Jo
+                                    </label>
+                                    <label>
+                                        <input type="radio" name="agree_{{ propozim_data.propozim.id }}" value="Abstenim" required> Abstenim
+                                    </label>
+                                </div>
+                                <button type="submit" class="btn btn-success">Dërgo</button>
+                            </form>
+                        {% else %}
+                            <!-- After submission, hide the choices and submit button -->
+
+                        {% endif %}
+
+                     
+                            {% if propozim_data.chart_img_base64 %}
+                            <div class="chart-container">
+                                <img src="data:image/png;base64,{{ propozim_data.chart_img_base64 }}" alt="Proposal Chart" style="width: 100%;">
+                            </div>
+                        {% endif %}
+
+                    </div>
+                </div>
+                <br>
+                {% endif %}
+            {% endfor %}
+        {% else %}
+            <p>Nuk ka propozime që kanë më shumë se 50% vota Po.</p>
+        {% endif %}
+    </div>
+</section>
+
+
+
+{% endblock %}

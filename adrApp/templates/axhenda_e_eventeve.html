@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+{% extends 'base/index.html' %}
+{% block title %} Statuti {% endblock %}
+{% load static %}
+{% block content %}
+
+<section class="axhendaevente">
+    <div class="container">
+        <h1 class="text-center mb-5">Lista e eventeve</h1>
+        <div class="row">
+            {% for event in events %}
+                <div class="col-12 col-sm-6 col-md-4 mb-4">
+                    <div class="card shadow-sm border-0 rounded-lg">
+                        <div class="card-body">
+                            <h5 class="card-title text-primary">{{ event.title }}</h5>
+                            <p class="card-text text-muted">{{ event.text|truncatewords:30 }}</p>  <!-- Truncate the description -->
+                            <!-- <p class="card-footer text-muted text-right mb-0">Created on: {{ event.date_created|date:"F d, Y" }}</p> -->
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+
+{% endblock content %}

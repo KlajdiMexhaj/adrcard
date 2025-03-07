@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+{% extends 'base/index.html' %}
+{% block title %} Asambleja {% endblock %}
+{% load static %}
+
+
+{% block content %}
+
+<section class="axhendaevente">
+    <div class="container">
+        {% for anetar in anetaret_aktive %}
+        <div class="row">
+                <div class="col-12 col-sm-6 col-md-4 mb-4">
+                    <div class="card shadow-sm border-0 rounded-lg">
+                        <div class="card-body">
+                            <h5 class="card-title text-primary"> {{ anetar.emer }} {{ anetar.mbiemer }}</h5>
+
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock content %}

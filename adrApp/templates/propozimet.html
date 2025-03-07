@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+{% extends 'base/index.html' %}
+{% block title %} Propozimet {% endblock %}
+{% load static %}
+{% block content %}
+
+  
+
+
+    <!-- Button at the top-left corner -->
+    <button class="open-btn" onclick="openForm()"><i class="fa-solid fa-plus"></i></button>
+
+
+
+
+    
+    <!-- <div class="dropdown-container">
+        <div class="dropdown-propozimet">
+            <button class="dropbtn">Propozimet për kandidatët për deputet</button>
+            <div class="dropdown-content-propozimet">
+                <a href="{% url 'propozimet1' %}">Propozimi 1</a>
+                <a href="#">Propozimi 2</a>
+            </div>
+        </div>
+    
+        <div class="dropdown-propozimet">
+            <button class="dropbtn">Propozimet për programin</button>
+            <div class="dropdown-content-propozimet">
+                <a href="#">Propozimi 1</a>
+                <a href="#">Propozimi 2</a>
+            </div>
+        </div>
+    
+        <div class="dropdown-propozimet">
+            <button class="dropbtn">Propozimet për evente</button>
+            <div class="dropdown-content-propozimet">
+                <a href="#">Propozimi 1</a>
+                <a href="#">Propozimi 2</a>
+            </div>
+        </div>
+    
+        <div class="dropdown-propozimet">
+            <button class="dropbtn">Propozimet për kandidatët e organigramës</button>
+            <div class="dropdown-content-propozimet">
+                <a href="#">Option 4.1</a>
+                <a href="#">Option 4.2</a>
+            </div>
+        </div>
+    </div> -->
+    
+
+    
+      
+    <section class="propozimet">
+        <a href="{% url 'propozimet1' %}" class="propozimetlinks"> 
+            <h1>Propozimet për tu aprovuar</h1>
+        </a>
+        <a href="{% url 'propozimet2' %}" class="propozimetlinks"><h1>Propozimet për votim</h1></a>
+        <a href="{% url 'propozimet3' %}" class="propozimetlinks"><h1>Propozimet e votuara</h1></a>
+
+    </section>
+
+
+
+    <!-- The Pop-up Form -->
+    <div class="popup" id="popupForm">
+        <div class="popup-content">
+            <span class="close-btn" onclick="closeForm()">&times;</span>
+            <h2>Propozimet</h2>
+            <form id="popupFormContent" method="POST" action="" enctype="multipart/form-data">
+                {% csrf_token %}
+                
+                <textarea name="textInput" id="textInput" placeholder="Shkruani propozimin tuaj..." required></textarea>
+                
+                <select name="choice1" id="choice1" onchange="toggleCVField()">
+                    
+                    <option value="option1" {% if request.POST.choice1 == 'option1' %}selected{% endif %}>Propozim për kandidat për deputet</option>
+                    <option value="option2">Propozim për programin</option>
+                    <option value="option3">Propozim për evente</option>
+                    <option value="option4">Propozim për kandidatët e organigramës</option>
+                </select>
+            
+                <!-- Hidden by default -->
+                <div id="cvUpload" style="display: none;">
+                    <label for="cv">Ngarko CV-në:</label>
+                    <input type="file" name="cv" id="cv" accept=".pdf,.doc,.docx" />
+                </div>
+            
+                <button type="submit" class="submit-btn">Dërgo</button>
+            </form>
+            
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <script>
+    // Open the popup form
+    function openForm() {
+    document.getElementById("popupForm").style.display = "block";
+    }
+
+    // Close the popup form
+    function closeForm() {
+    document.getElementById("popupForm").style.display = "none";
+    }
+    // Show or hide CV upload field based on the selected option
+    function toggleCVField() {
+    var category = document.getElementById("choice1").value;
+    var cvField = document.getElementById("cvUpload");
+    var cvInput = document.getElementById("cv");
+
+    // Show CV field and set it as required only when "option1" is selected
+    if (category === "option1") {
+        cvField.style.display = "block";
+        cvInput.required = true;  // Make the CV input required
+    } else {
+        cvField.style.display = "none";
+        cvInput.required = false; // Remove the required attribute when other options are selected
+    }
+    }
+
+    // Trigger the CV field display and 'required' status on page load based on the default selected option
+    window.onload = function() {
+    toggleCVField(); // Ensure the form is initialized with the correct state
+    }
+
+
+
+
+// Adding smooth dropdown functionality on click for mobile view
+document.querySelectorAll('.dropbtn').forEach((btn) => {
+    btn.addEventListener('click', (event) => {
+        const dropdown = event.target.closest('.dropdown-propozimet');
+        const content = dropdown.querySelector('.dropdown-content-propozimet');
+        const otherDropdowns = document.querySelectorAll('.dropdown-content-propozimet');
+        
+        // Close all dropdowns except the one clicked
+        otherDropdowns.forEach((dropdownContent) => {
+            if (dropdownContent !== content) {
+                dropdownContent.style.display = 'none';
+                dropdownContent.style.opacity = '0';
+                dropdownContent.style.transform = 'translateY(10px)';
+            }
+        });
+
+        // Toggle the clicked dropdown
+        if (content.style.display === 'block') {
+            content.style.display = 'none';
+            content.style.opacity = '0';
+            content.style.transform = 'translateY(10px)';
+        } else {
+            content.style.display = 'block';
+            content.style.opacity = '1';
+            content.style.transform = 'translateY(0)';
+        }
+    });
+});
+
+// Close dropdowns if clicked outside
+window.addEventListener('click', (event) => {
+    if (!event.target.matches('.dropbtn')) {
+        document.querySelectorAll('.dropdown-content-propozimet').forEach((dropdown) => {
+            dropdown.style.display = 'none';
+            dropdown.style.opacity = '0';
+            dropdown.style.transform = 'translateY(10px)';
+        });
+    }
+});
+
+
+    </script>
+
+{% endblock content %}

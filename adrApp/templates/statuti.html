@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+{% extends 'base/index.html' %}
+{% block title %} Statuti {% endblock %}
+{% load static %}
+{% block content %}
+
+
+
+<section class="statuti">
+    <div class="statuti-content">
+      <h2>STATUTI</h2>
+      <!-- <p>
+        PARTIA “ALEANCA DEMOITRACIA RE” ADR
+        <br>
+        Me propozim të më shumë se 51 përqind të Këshillit Kombëtarë të partisë, mbështetur në nenin 17 të statutit të emrave të partisë, nga e vjetra, Demokracia për ndryshimin e emrit te partise nga “Partia Demokracia e Re Europiane, PDRE duke bërë ndryshimet ne Statutin e Partisë, "Partia Aleanca Demokracia Re, ADR”
+      </p> -->
+      <a href="{% static 'img/STATUT_ADR.pdf'%}" download class="download-button">SHKARKO STATUTIN</a>
+    </div>
+  </section>
+
+
+
+  <img src="{{ MEDIA_URL }}qr_code_anetaret/{{ guid }}.png" alt="QR Code">
+
+{% endblock content %}

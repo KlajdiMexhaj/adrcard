@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+{% extends 'base/index.html' %}
+{% block title %} home {% endblock %}
+{% load static %}
+{% block content %}
+
+
+<div class="container-homepage">
+    <a href="{% url 'propozimet' %}" class="square">Propozimet</a>
+    <a href="{%url 'statuti'%}" class="square">Statuti</a>
+    <a href="{% url 'programi' %}" class="square">Programi</a>
+    <a href="{% url 'axhendaeventeve' %}" class="square">Axhenda e eventeve</a>
+    <a href="{%url 'kandidatdeputet' %}" class="square">Kanditatët e partisë për deputet</a>
+    <a href="{% url 'organigrama' %}" class="square">Organigrama e partisë</a>
+</div>
+<div class="container-komunikimezyrtare">
+    <a href="{% url 'komunikimezyrtare' %}" class="square-komunikimezyrtare">Komunikime zyrtare</a>
+
+</div>
+{% endblock content %}

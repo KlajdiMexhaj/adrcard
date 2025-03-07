@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+{% extends 'base/index.html' %}
+{% block title %} Propozimet e Pabesuar {% endblock %}
+{% load static %}
+{% block content %}
+
+<section class="propozimet3-card">
+    <div class="container-propozimet3">
+
+        <!-- Po Group -->
+        <h2>Propozimet me më shumë vota "Po"</h2>
+        {% if expired_proposals_po %}
+            <div class="group-propozimet3">
+                {% for propozim in expired_proposals_po %}
+                    <div class="card-propozimet3">
+                        <div class="card-body-propozimet3">
+                            <h5 class="card-title-propozimet3">{{ propozim.propozim.get_category_display }}</h5>
+                            <p class="card-text-propozimet3">{{ propozim.propozim.text }}</p>
+<br>
+                            {% if propozim.propozim.cv %}
+                                <a href="{{ propozim.propozim.cv.url }}" class="btn btn-primary" target="_blank" style="text-decoration: none;">Download CV</a>
+                            {% endif %}
+
+
+
+                            {% if propozim.chart_img_base64 %}
+                                <div class="chart-container-propozimet3">
+                                    <img src="data:image/png;base64,{{ propozim.chart_img_base64 }}" alt="Proposal Chart" style="width: 100%;">
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <br>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p>Asnjë propozim me më shumë vota "Po".</p>
+        {% endif %}
+
+        <!-- Jo Group -->
+        <h2>Propozimet me më shumë vota "Jo"</h2>
+        {% if expired_proposals_jo %}
+            <div class="group-propozimet3">
+                {% for propozim in expired_proposals_jo %}
+                    <div class="card-propozimet3">
+                        <div class="card-body-propozimet3">
+                            <h5 class="card-title-propozimet3">{{ propozim.propozim.get_category_display }}</h5>
+                            <p class="card-text-propozimet3">{{ propozim.propozim.text }}</p>
+<br>
+                            {% if propozim.propozim.cv %}
+                                <a href="{{ propozim.propozim.cv.url }}" class="btn btn-primary" target="_blank" style="text-decoration: none;">Download CV</a>
+                            {% endif %}
+
+
+
+                            {% if propozim.chart_img_base64 %}
+                                <div class="chart-container-propozimet3">
+                                    <img src="data:image/png;base64,{{ propozim.chart_img_base64 }}" alt="Proposal Chart" style="width: 100%;">
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <br>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p>Asnjë propozim me më shumë vota "Jo".</p>
+        {% endif %}
+    </div>
+</section>
+
+{% endblock %}

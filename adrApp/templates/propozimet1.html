@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+{% extends 'base/index.html' %}
+{% block title %} Propozimet {% endblock %}
+{% load static %}
+{% block content %}
+<section class="propozimet1-card">
+    <h2>Propozimet 1</h2>
+    <!-- Dropdown Menu Below h2 -->
+    <form method="GET" action="{% url 'propozimet1' %}">
+        <div class="dropdown-container-propozimet1">
+            
+            <select id="dropdown-propozimet1" name="category" class="dropdown-propozimet1" onchange="this.form.submit()">
+                <option value="">Të gjitha propozimet</option>
+                <option value="option1" {% if selected_category == "option1" %}selected{% endif %}>
+                    Propozim për kandidat për deputet
+                </option>
+                <option value="option2" {% if selected_category == "option2" %}selected{% endif %}>
+                    Propozim për programin
+                </option>
+                <option value="option3" {% if selected_category == "option3" %}selected{% endif %}>
+                    Propozim për evente
+                </option>
+                <option value="option4" {% if selected_category == "option4" %}selected{% endif %}>
+                    Propozim për kandidatët e organigramës
+                </option>
+            </select>
+        </div>
+    </form>
+
+    <div class="container">
+        {% for propozim in propozimet_list %}
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">{{ propozim.get_category_display }}</h5>
+                    <p class="card-text">{{ propozim.text }}</p>
+    
+                    {% if propozim.cv %}
+                        <a href="{{ propozim.cv.url }}" class="btn btn-primary" target="_blank" style="text-decoration: none;">Download CV</a>
+                    {% endif %}
+    
+                    <!-- Display time left to vote -->
+                    {% if propozim.can_vote %}
+                    <p>Koha për të votuar: <span id="time-left-{{ propozim.id }}">{{ propozim.time_left_seconds|floatformat:0 }}</span> sekonda</p>
+                    <form method="post">
+                        {% csrf_token %}
+                        <input type="hidden" name="propozim_id" value="{{ propozim.id }}">
+                        <label for="po_jo_{{ propozim.id }}">A jeni dakort për këtë propozim?</label>
+                        <div>
+                            <label>
+                                <input type="radio" name="agree_{{ propozim.id }}" value="Po" required> Po
+                            </label>
+                            <label>
+                                <input type="radio" name="agree_{{ propozim.id }}" value="Jo" required> Jo
+                            </label>
+                        </div>
+                        <button type="submit" class="btn btn-success">Dërgo</button>
+                    </form>
+                {% else %}
+                    <p>Votimi juaj shkoj me sukses.</p>
+                {% endif %}
+    
+                    <!-- Show chart only if votes exist -->
+                    {% if propozim.vote_chart %}
+                        <div class="vote-chart">
+                            <img src="data:image/png;base64,{{ propozim.vote_chart }}" alt="Rezultatet e votave" style="width: 100%;">
+                        </div>
+                    {% elif not propozim.vote_submitted %}
+                        <p>Nuk ka asnjë votë për këtë propozim ende.</p>
+                    {% endif %}
+                </div>
+            </div>
+            <br>
+            
+        {% endfor %}
+        
+    </div>
+    
+    
+</section>
+
+{% endblock %}

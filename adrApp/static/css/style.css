@@ -1,0 +1,1541 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  body {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    background-color: #f4f4f4;
+  }
+  
+
+/* ----------------------------------------------------------------------HEADER CONTAINER---------------------------------------------------------------- */
+
+/* Header container */
+header {
+    background: #1A355E; /* Gradient background for a modern look */
+    color: white;
+    padding: 20px 0; /* Increased padding for better spacing */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    position: sticky;
+    top: 0; /* Keep header sticky at the top */
+    z-index: 10; /* Ensure it stays above other content */
+  }
+  
+  /* Header content container */
+  .header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 100%;
+    padding: 0 40px; /* Wider padding for spacing */
+    font-family: 'Roboto', sans-serif; /* Sleek font */
+    height: 60px;
+  }
+  
+  /* Logo */
+  
+  .logo img {
+    margin-top: 15px;
+    width: 250px; /* Set width */
+    height: 150px; /* Maintain aspect ratio */
+    margin-left: -50px;
+  }
+  
+  
+  
+  /* Dropdown container */
+  .dropdown {
+    position: relative;
+    transition: transform 0.3s ease-in-out;
+  }
+  
+  /* Dropdown button */
+  .dropdown-btn {
+    background-color: transparent;
+    color: white;
+    border: none;
+    font-size: 30px;
+    cursor: pointer;
+    padding: 12px 18px;
+    border-radius: 50%;
+    transition: background-color 0.3s, transform 0.3s ease-in-out; /* Smooth hover effect */
+  }
+  
+  .dropdown-btn:hover {
+    background-color: rgba(255, 255, 255, 0.2); /* Slight translucent hover effect */
+    transform: scale(1.1); /* Button grows slightly on hover */
+  }
+  
+  /* Dropdown content */
+  .dropdown-content {
+    display: none;
+    position: absolute;
+    top: 50px;
+    right: 0;
+    background-color: rgba(0, 0, 0, 0.8); /* Semi-transparent background */
+    min-width: 200px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2); /* Larger, more subtle shadow */
+    border-radius: 8px;
+    z-index: 1;
+    opacity: 0;
+    transform: translateY(-20px); /* Starts slightly above for animation */
+    transition: opacity 0.3s ease, transform 0.3s ease-in-out;
+  }
+  
+  /* Dropdown links */
+  .dropdown-content a {
+    color: #fff;
+    padding: 14px 20px;
+    text-decoration: none;
+    display: block;
+    text-align: left;
+    transition: background-color 0.3s ease;
+    font-size: 18px;
+    border-bottom: 1px solid #333; /* Subtle divider between links */
+  }
+  
+  .dropdown-content a:hover {
+    background-color: #2f4f4f; /* Subtle hover effect */
+  }
+  
+  /* Show the dropdown menu when the 'show' class is added */
+  .dropdown-content.show {
+    display: block;
+    opacity: 1; /* Fade in the dropdown */
+    transform: translateY(0); /* Smooth slide down effect */
+  }
+  
+  /* Mobile responsiveness */
+  @media screen and (max-width: 768px) {
+    .header-container {
+      padding: 0 20px; /* Adjust padding for smaller screens */
+    }
+  
+    .dropdown-btn {
+      font-size: 26px;
+      padding: 10px 15px;
+    }
+  
+    .logo i {
+      font-size: 36px; /* Adjust logo size for smaller screens */
+    }
+  
+    .dropdown-content a {
+      font-size: 16px; /* Adjust link font size */
+    }
+  }
+  /* ---------------------------------------------------- BANNER NAME STYLES----------------------------------------------------------- */
+
+.banner {
+    width: 90%;
+    max-width: 800px;
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    margin: 20px auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-left: 4px solid #007bff;
+    border-right: 4px solid #007bff;
+    height: 140px;
+  }
+  
+  .welcome-text {
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: #333;
+  }
+  
+  .name {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #007bff;
+  }
+  .name-roli {
+    font-size: 1.3rem;
+    font-weight: bold;
+    color: #007bff;
+  }
+  
+  
+  @media (max-width: 768px) {
+    .banner {
+        flex-direction: column;
+        text-align: center;
+        padding: 15px;
+    }
+  
+    .welcome-text {
+        margin-bottom: 8px;
+    }
+  }
+  
+/* ------------------------------------------------------------HOME PAGE STYLES--------------------------------------------------- */
+
+.container-homepage {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    width: 100vw;
+    max-width: 600px;
+    height: 200vh;
+    max-height: 600px;
+    padding: 10px;
+  }
+  .square {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(135deg, #1A355E, #1a355e99);
+    border-radius: 10px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    text-decoration: none;
+    color: white;
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center;
+    width: 100%;
+    height: 100%;
+  }
+  .square:hover {
+    transform: scale(1.05);
+    box-shadow: 0 5px 15px #1A355E;
+  }
+
+
+
+  
+  .container-komunikimezyrtare {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: 10px;
+    width: 100vw;
+    max-width: 600px;
+    height: 200vh;
+    max-height: 200px;
+    padding: 10px;
+  }
+  .square-komunikimezyrtare {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(135deg, #1A355E, #1a355e99);
+    border-radius: 10px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    text-decoration: none;
+    color: white;
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center;
+    width: 100%;
+    height: 100%;
+  }
+  .square-komunikimezyrtare:hover {
+    transform: scale(1.05);
+    box-shadow: 0 5px 15px #1A355E;
+  }
+
+
+
+
+/* ------------------------------------------------------------PROPOZIMET PAGE------------------------------------------------------ */
+
+/* The button for opening the popup */
+.open-btn {
+    position: absolute;
+    right: 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 15px 20px;
+    font-size: 20px;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+/* The pop-up form */
+.popup {
+    display: none; /* Hidden by default */
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4); /* Black background with opacity */
+    padding-top: 50px;
+}
+
+/* Pop-up content */
+.popup .popup-content {
+    background-color: white;
+    margin: 30% auto;
+    padding: 20px;
+    border-radius: 10px;
+    width: 80%;
+    max-width: 400px;
+    position: relative;
+}
+
+/* Close button for the pop-up */
+.popup .close-btn {
+    color: #aaa;
+    font-size: 28px;
+    font-weight: bold;
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    cursor: pointer;
+}
+
+/* Form inputs */
+.popup textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.popup select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+/* Submit button */
+.popup .submit-btn {
+    width: 100%;
+    padding: 12px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+/* Submit button hover effect */
+.popup .submit-btn:hover {
+    background-color: #45a049;
+}
+
+/* Responsive design */
+@media screen and (max-width: 600px) {
+    .popup .popup-content {
+        width: 90%;
+    }
+
+    .popup .open-btn {
+        font-size: 30px;
+        padding: 20px;
+    }
+}
+
+/* Basic styling for the section */
+.propozimet {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    justify-content: center;
+    padding: 70px 20px 0 20px;
+    margin: 0 auto;
+    align-items: stretch; /* Ensure links stretch vertically */
+  }
+  
+  /* Styling for each link */
+  .propozimetlinks {
+    width: 48%; /* Make each link take up 50% of the row (with gap considered) */
+    height: 250px;
+    background-color: #1A355E; /* Blue background */
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    text-decoration: none;
+    font-size: 20px;
+    font-weight: bold;
+    transition: all 0.3s ease-in-out;
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    position: relative;
+  }
+  
+  /* Hover animation */
+  .propozimetlinks:hover {
+    transform: scale(1.05);
+    background-color: #1A355E; /* Darker blue on hover */
+    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease-in-out;
+  }
+  
+  /* Add text animation */
+  .propozimetlinks::before {
+    content: ' ';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.2);
+    transform: scaleX(0);
+    transform-origin: 100%;
+    transition: transform 0.5s ease;
+  }
+  
+  .propozimetlinks:hover::before {
+    transform: scaleX(1);
+    transform-origin: 0%;
+  }
+  
+  /* Responsive design for mobile */
+  @media screen and (max-width: 768px) {
+    .propozimetlinks {
+      width: 100%; /* Full width on mobile */
+      height: 200px; /* Adjust height for smaller screens */
+      font-size: 18px;
+    }
+  }
+  
+
+/* ---------KATEGORI PROPOZIME----------- */
+
+/* Basic Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Dropdown Container */
+.dropdown-container {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", sans-serif;
+    background-color: #f0f0f5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 50vh;
+    padding: 20px;
+    flex-wrap: wrap;
+    max-width: 100%;
+}
+
+/* Dropdown Style */
+.dropdown-propozimet{
+    position: relative;
+    display: inline-block;
+    transition: all 0.3s ease;
+    flex: 1 1 100%;
+    max-width: 200px;
+    margin: 10px;
+}
+
+/* Dropdown Button */
+.dropbtn {
+    background-color: #007aff;  /* iOS blue color */
+    color: white;
+    padding: 12px 24px;
+    border-radius: 12px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+    width: auto; /* Remove the full width so it can be centered */
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    margin-left: 15px; /* Add margin for better spacing */
+    margin-right: 15px; /* Add margin for better spacing */
+    display: block;
+    margin-top: 0;
+    margin-bottom: 0;
+    margin-left: auto; /* Center button horizontally */
+    margin-right: auto; /* Center button horizontally */
+}
+
+
+/* Button Hover Effect */
+.dropbtn:hover {
+    background-color: #005bb5;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    transform: translateY(-2px);
+}
+
+/* Dropdown Content */
+.dropdown-content-propozimet {
+    display: none;
+    position: absolute;
+    background-color: #ffffff;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    max-width: 300px;
+    width: 100%; /* Make the dropdown content take up the full width */
+    border-radius: 12px;
+    top: 100%;
+    left: 0;
+    transform: translateY(10px);
+    opacity: 0;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    z-index: 1;
+    margin-left: 15px;
+    margin-right: 15px; /* Ensure margin on both sides */
+}
+/* Dropdown Link */
+.dropdown-content-propozimet a {
+    color: #333;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    border-bottom: 1px solid #f0f0f5;
+    transition: background-color 0.3s ease;
+    border-radius: 0 0 12px 12px;
+}
+
+/* Last link no border */
+.dropdown-content-propozimet a:last-child {
+    border-bottom: none;
+}
+
+/* Dropdown Link Hover */
+.dropdown-content-propozimet a:hover {
+    background-color: #f2f2f7;
+}
+
+/* Show Dropdown on Hover */
+.dropdown-propozimet:hover .dropdown-content-propozimet {
+    display: block;
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Mobile Responsive */
+@media (max-width: 600px) {
+    .dropdown-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    /* Change to column layout on mobile */
+    .dropdown-propozimet {
+        margin-bottom: 15px;
+        max-width: 100%;
+        flex: 1 1 45%; /* Display two items per row */
+    }
+
+    /* Adjust button size on mobile */
+    .dropbtn {
+        font-size: 18px;
+        padding: 15px 30px;
+    }
+
+    /* Make dropdowns appear in columns */
+    .dropdown-container {
+        display: grid;
+        grid-template-columns: repeat(1, 1fr); /* 2 columns on mobile */
+        align-content: center;
+        width: 100%;
+    }
+}
+/* Mobile Responsive */
+@media (max-width: 600px) {
+    /* Keep the dropdown content width same as the dropdown button */
+    .dropdown-content-propozimet {
+        width: 100%; /* Make dropdown content the same width as the button */
+        margin-left: 15px; /* Add margin to the left */
+        margin-right: 15px; /* Add margin to the right */
+    }
+
+    /* Ensure dropdown buttons take up the full width of the container */
+    .dropdown-propozimet {
+        width: 100%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    /* Keep button centered on mobile */
+    .dropbtn {
+        width: 100%; /* Make button take full width of its container */
+        max-width: 100%; /* Ensures the button doesn't stretch beyond the screen size */
+    }
+}
+
+
+/* ---------------------------------------------------PROPOZIMET 1 PAGE--------------------------------------------------- */
+/* Prefix the class with .propozimet1-card to avoid interference */
+/* Prefix the class with .propozimet1-card to avoid interference */
+.propozimet1-card {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f9;
+    padding: 30px 0;
+}
+
+.propozimet1-card h2 {
+    text-align: center;
+    font-size: 2rem;
+    color: #333;
+    margin-bottom: 30px;
+    transition: all 0.3s ease;
+}
+
+.propozimet1-card .container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+    padding: 0 20px;
+}
+
+.propozimet1-card .card {
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transform: translateY(0);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.propozimet1-card .card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.propozimet1-card .card-body {
+    padding: 20px;
+    transition: all 0.3s ease;
+}
+
+.propozimet1-card .card-title {
+    font-size: 1.5rem;
+    color: #007bff;
+    margin-bottom: 15px;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+.propozimet1-card .card-text {
+    font-size: 1rem;
+    color: #555;
+    line-height: 1.5;
+    margin-bottom: 20px;
+}
+
+.propozimet1-card .card .btn {
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+/* Spacing for CV and buttons */
+.propozimet1-card .card .btn-primary,
+.propozimet1-card .card .btn-success {
+    margin-top: 10px;
+}
+
+.propozimet1-card .card .btn-primary {
+    background-color: #007bff;
+    border: none;
+}
+
+.propozimet1-card .card .btn-primary:hover {
+    background-color: #0056b3;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.propozimet1-card .card .btn-success {
+    background-color: #28a745;
+    border: none;
+}
+
+.propozimet1-card .card .btn-success:hover {
+    background-color: #218838;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.propozimet1-card form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-top: 20px; /* Added space between form and previous content */
+}
+
+.propozimet1-card form label {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #333;
+}
+
+.propozimet1-card form div {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+.propozimet1-card form input[type="radio"] {
+    accent-color: #007bff;
+}
+
+.propozimet1-card form button {
+    align-self: flex-start;
+    padding: 12px 25px;
+    font-size: 1.1rem;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.propozimet1-card .card .card-body a {
+    display: inline-block;
+    margin-top: 20px; /* More space between CV and radio options */
+    text-decoration: none;
+}
+
+/* Smooth animation for the heading */
+.propozimet1-card h2 {
+    animation: fadeIn 1.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsive Design for Mobile */
+@media (max-width: 768px) {
+    .propozimet1-card h2 {
+        font-size: 1.5rem;
+    }
+
+    .propozimet1-card .card {
+        margin-bottom: 20px;
+        box-shadow: none;
+    }
+
+    .propozimet1-card .card-body {
+        padding: 15px;
+    }
+
+    .propozimet1-card form {
+        align-items: flex-start;
+    }
+
+    .propozimet1-card form button {
+        padding: 10px 20px;
+        font-size: 1rem;
+    }
+
+    .propozimet1-card .card .card-body a {
+        margin-top: 15px;
+    }
+}
+/* Add to your existing CSS file */
+
+/* Styling for the Dropdown Container */
+.propozimet1-card .dropdown-container-propozimet1 {
+    margin-bottom: 30px; /* Space between dropdown and other content */
+    text-align: center; /* Center the dropdown */
+    animation: fadeIn 1s ease-out; /* Smooth fade-in animation */
+}
+
+/* Styling for the label above the dropdown */
+.propozimet1-card .dropdown-container-propozimet1 label {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #333;
+    display: block;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+}
+/* Styling for the dropdown options */
+.propozimet1-card .dropdown-container-propozimet1 .dropdown-propozimet1 option {
+    font-size: 0.9rem;
+    padding: 10px;
+    background-color: #fff;
+    color: #333;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    width: 150px;
+}
+
+/* Hover effect for options (only works in some browsers) */
+.propozimet1-card .dropdown-container-propozimet1 .dropdown-propozimet1 option:hover {
+    background-color: #007bff;
+    color: #fff;
+}
+
+/* Selected option styling */
+.propozimet1-card .dropdown-container-propozimet1 .dropdown-propozimet1 option:checked {
+    background-color: #28a745;
+    color: #fff;
+    font-weight: bold;
+}
+
+/* Styling for the dropdown select */
+.propozimet1-card .dropdown-container-propozimet1 .dropdown-propozimet1 {
+    font-size: 1.1rem;
+    padding: 10px 20px;
+    border-radius: 8px;
+    border: 2px solid #007bff;
+    background-color: #fff;
+    color: #333;
+    width: 100%;
+    max-width: 400px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin: 30px;
+}
+
+/* Hover effect for the dropdown */
+.propozimet1-card .dropdown-container-propozimet1 .dropdown-propozimet1:hover {
+    border-color: #0056b3;
+    background-color: #f0f8ff;
+}
+
+/* Focus effect for the dropdown */
+.propozimet1-card .dropdown-container-propozimet1 .dropdown-propozimet1:focus {
+    outline: none;
+    border-color: #28a745;
+    box-shadow: 0 0 5px rgba(40, 167, 69, 0.5);
+}
+
+/* Animation for the fade-in effect */
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+
+
+/* ---------------------------------------------PROGRAMI------------------------------------------------------------ */
+
+/* General Styling */
+.programi {
+    font-family: 'Open Sans', sans-serif; /* Clean, modern font with excellent readability */
+    padding: 30px;
+    margin: 0 auto;
+    max-width: 900px;
+    background-color: #f5f8ff; /* Softer background for better readability */
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    color: #444;
+    text-align: justify;
+    line-height: 1.8;
+  }
+  
+  .paragraph-1 {
+    font-size: 1.2rem;
+    color: #555;
+    margin-bottom: 20px;
+  }
+  
+  .paragraph-1 br {
+    margin-bottom: 15px;
+  }
+  
+  .title {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #0056b3;
+    text-align: center;
+    display: block;
+    margin-bottom: 25px;
+  }
+  
+  .subtitle {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #006bb3;
+    margin-bottom: 20px;
+  }
+  
+  .goals-list {
+    list-style-type: none;
+    padding-left: 0;
+    margin-top: 0;
+  }
+  
+  .goals-list li {
+    font-size: 1.1rem;
+    margin-bottom: 12px;
+    color: #333;
+    padding-left: 25px;
+    position: relative;
+  }
+  
+  .goals-list li:before {
+    content: "✔"; /* Adds a check mark icon before each goal */
+    color: #0099ff;
+    font-size: 1.4rem;
+    position: absolute;
+    left: 0;
+    top: 0;
+  }
+  
+  .paragraph-1 b {
+    font-weight: 600;
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .programi {
+        padding: 25px;
+        max-width: 95%;
+    }
+  
+    .paragraph-1 {
+        font-size: 1.1rem;
+    }
+  
+    .title {
+        font-size: 1.5rem;
+    }
+  
+    .subtitle {
+        font-size: 1.3rem;
+    }
+  
+    .goals-list li {
+        font-size: 1.1rem;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .programi {
+        padding: 15px;
+    }
+  
+    .paragraph-1 {
+        font-size: 1rem;
+    }
+  
+    .title {
+        font-size: 1.3rem;
+    }
+  
+    .subtitle {
+        font-size: 1.2rem;
+    }
+  
+    .goals-list li {
+        font-size: 1rem;
+    }
+  }
+  
+  .paragraph-1 .underline-program{
+    text-decoration: underline;
+    font-weight: 600;
+  }
+  
+
+
+
+
+
+
+
+
+/* ------------------------------------------PROPOZIME3 PAGE------------------------------------------------ */
+/* General Styles */
+.propozimet3-card {
+    padding: 50px 20px;
+    background-color: #f8f9fa;
+    font-family: 'Arial', sans-serif;
+}
+
+/* Container for cards */
+.container-propozimet3 {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Title for the "Po" and "Jo" groups */
+h2 {
+    text-align: center;
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: #0069d9;
+}
+
+/* Group of cards in each section (Po and Jo) */
+.group-propozimet3 {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+    justify-items: center;
+}
+
+/* Card styles */
+.card-propozimet3 {
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card-propozimet3:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* Card body content */
+.card-body-propozimet3 {
+    padding: 20px;
+}
+
+.card-title-propozimet3 {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #0069d9;
+    margin-bottom: 15px;
+    text-transform: uppercase;
+}
+
+.card-text-propozimet3 {
+    font-size: 1rem;
+    color: #555;
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+.card-body-propozimet3 p {
+    font-size: 1rem;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+/* Button styling */
+.btn-primary {
+    background-color: #0069d9;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    font-size: 1rem;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+}
+
+/* Chart image container */
+.chart-container-propozimet3 {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.chart-container-propozimet3 img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+    transition: transform 0.3s ease;
+}
+
+.chart-container-propozimet3 img:hover {
+    transform: scale(1.05);
+}
+
+/* No data message */
+p {
+    text-align: center;
+    font-size: 1.1rem;
+    color: #888;
+    font-weight: bold;
+}
+
+/* Smooth scrolling */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Add fade-in animation for the whole section */
+@keyframes fadeIn {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+}
+
+.propozimet3-card {
+    animation: fadeIn 1s ease-in-out;
+}
+
+
+
+/* ----------------------------------AXHENDA E EVENTEVE---------------------------------------------------------------- */
+/* Style for the event card */
+.axhendaevente .card {
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+.axhendaevente .card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Styling for card body */
+.axhendaevente .card-body {
+    padding: 20px;
+}
+
+.axhendaevente .card-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #333;
+}
+
+.axhendaevente .card-text {
+    font-size: 1rem;
+    color: #666;
+    line-height: 1.5;
+}
+
+/* Style for the card footer */
+.axhendaevente .card-footer {
+    font-size: 0.875rem;
+    color: #999;
+}
+
+/* Responsive adjustments */
+@media (max-width: 576px) {
+    .axhendaevente .card-body {
+        padding: 15px;
+    }
+
+    .axhendaevente .card-title {
+        font-size: 1.25rem;
+    }
+
+    .axhendaevente .card-text {
+        font-size: 0.9rem;
+    }
+
+    .axhendaevente .card-footer {
+        font-size: 0.75rem;
+    }
+}
+
+/* Responsive grid system */
+.axhendaevente .row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.axhendaevente .col-12, .col-sm-6, .col-md-4 {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+@media (max-width: 768px) {
+    .axhendaevente .col-md-4 {
+        flex: 1 0 48%;
+    }
+}
+
+@media (max-width: 576px) {
+    .axhendaevente .col-sm-6 {
+        flex: 1 0 100%;
+    }
+}
+
+
+
+
+
+
+/* ---------------------------------------STATUTI----------------------------------------- */
+
+.statuti h2 {
+    text-align: center;
+    font-size: 2rem;
+    color: #333;
+    margin-bottom: 20px;
+  }
+  
+  .statuti p {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: #555;
+  }
+  
+  /* Statuti Section */
+  .statuti {
+    background-color: #ffffff;
+    padding: 40px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    max-width: 800px;
+    margin: 20px auto;
+    animation: fadeIn 1.5s ease-in-out;
+  }
+  
+  .statuti-content {
+    padding: 20px;
+  }
+  
+  .statuti-content p {
+    text-align: justify;
+  }
+  
+  /* Download Button */
+  .statuti .download-button {
+    display: inline-block;
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    margin-top: 20px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .statuti .download-button:hover {
+    background-color: #45a049;
+    animation: pulse 1s infinite;
+  }
+  
+  /* Animation Effects */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  @keyframes pulse {
+    0% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.1);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+  
+  /* Mobile Responsiveness */
+  @media (max-width: 600px) {
+    .statuti {
+      padding: 20px;
+    }
+  
+    .statuti h2 {
+      font-size: 1.6rem;
+    }
+  
+    .statuti p {
+      font-size: 1rem;
+    }
+  
+    .statuti .download-button {
+      width: 100%;
+      padding: 12px 0;
+    }
+  }
+
+
+
+
+
+  /* ------------------------------------------------------KOORDINATORI PAGE----------------------------------- */
+/* General Styling */
+.koordinatori {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 20px;
+    background: #f9f9f9;
+    color: #333;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    overflow: hidden;
+    animation: fadeIn 1s ease-in-out;
+}
+
+/* Heading Styling */
+.koordinatori h1 {
+    font-size: 28px;
+    font-weight: bold;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+    animation: slideDown 1s ease-in-out;
+    color: #222;
+}
+
+.koordinatori h2 {
+    font-size: 20px;
+    font-weight: 500;
+    margin-bottom: 15px;
+    animation: fadeIn 1.2s ease-in-out;
+    color: #555;
+}
+
+/* Image Styling */
+.koordinatori img {
+    width: 160px;
+    height: 160px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #ddd;
+    margin-bottom: 20px;
+    animation: zoomIn 1s ease-in-out;
+}
+
+/* Paragraph Styling */
+.koordinatori p {
+    font-size: 17px;
+    line-height: 1.8;
+    text-align: justify;
+    padding: 15px;
+    background: #fff;
+    border-left: 4px solid #007bff;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    margin-bottom: 15px;
+    animation: fadeInUp 1.5s ease-in-out;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .koordinatori {
+        padding: 15px;
+        margin: 20px;
+    }
+    .koordinatori h1 {
+        font-size: 24px;
+    }
+    .koordinatori h2 {
+        font-size: 18px;
+    }
+    .koordinatori img {
+        width: 130px;
+        height: 130px;
+    }
+    .koordinatori p {
+        font-size: 15px;
+        padding: 10px;
+    }
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideDown {
+    from {
+        transform: translateY(-20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes zoomIn {
+    from {
+        transform: scale(0.8);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        transform: translateY(20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+
+
+
+
+
+
+
+/* ---------------------------------------------------KOMUNIKIME ZYRTARE------------------------------------------------------------------------ */
+.container-komunikimezyrtare1 {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 10px;
+}
+.official-communication {
+    background: white;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-left: 5px solid #0056b3;
+}
+.official-title {
+    font-size: 24px;
+    font-weight: bold;
+    color: #0056b3;
+    border-bottom: 2px solid #ddd;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+    text-align: center;
+}
+.official-text {
+    font-size: 16px;
+    color: #333;
+    line-height: 1.8;
+    text-align: justify;
+}
+@media (max-width: 768px) {
+    .container {
+        width: 90%;
+    }
+    .official-title {
+        font-size: 20px;
+    }
+    .official-text {
+        font-size: 14px;
+    }
+}
+
+
+
+
+/* ---------------------------------------LOG IN ------------------------------------------------------------------ */
+
+/* Centering the login section */
+.login {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: #f8f9fa;
+    padding: 20px;
+}
+
+/* Styling the form */
+.login form {
+    background: #ffffff;
+    padding: 2rem;
+    border-radius: 14px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: 100%;
+    max-width: 400px;
+    transition: transform 0.3s ease-in-out;
+}
+
+/* Subtle hover effect */
+.login form:hover {
+    transform: translateY(-3px);
+}
+
+/* Text inside the form */
+.login p {
+    font-size: 1rem;
+    color: #666;
+    margin-bottom: 1.2rem;
+    line-height: 1.6;
+}
+
+/* Label styling */
+.login label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: #333;
+    text-align: left;
+}
+
+/* Input field styling */
+.login input[type="text"] {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    font-size: 1rem;
+    background: #f9f9f9;
+    transition: all 0.3s ease-in-out;
+}
+
+/* Input focus effect */
+.login input[type="text"]:focus {
+    border-color: #007bff;
+    outline: none;
+    background: #fff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.2);
+}
+
+/* Button styling */
+.login button {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 10px;
+    font-size: 1rem;
+    font-weight: 600;
+    background: linear-gradient(135deg, #007bff, #0056b3);
+    color: #fff;
+    cursor: pointer;
+    margin-top: 1rem;
+    transition: all 0.3s ease-in-out;
+}
+
+/* Button hover effect */
+.login button:hover {
+    background: linear-gradient(135deg, #0056b3, #003d80);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Adding smooth transition for form inputs */
+.login input, button {
+    transition: 0.3s ease-in-out;
+}
+
+/* Responsive adjustments */
+@media (max-width: 480px) {
+    .login form {
+        width: 95%;
+        padding: 1.8rem;
+    }
+}

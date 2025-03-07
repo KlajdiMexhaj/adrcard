@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+{% extends 'base/index.html' %}
+{% block title %} Komunikime Zyrtare {% endblock %}
+{% load static %}
+{% block content %}
+
+
+<div class="container-komunikimezyrtare1">
+    {% if komunikimezyrtare %}
+        {% for newsletter in komunikimezyrtare %}
+            <div class="official-communication">
+                <h1 class="official-title">
+                    {{ newsletter.titull|default:"Komunikim Zyrtar" }}
+                </h1>
+                <p class="official-text">
+                    {{ newsletter.text|default:"Nuk ka ndonjë komunikim zyrtar për momentin. Qëndroni të informuar për përditësimet më të fundit." }}
+                </p>
+            </div>
+        {% endfor %}
+    {% else %}
+        <div class="official-communication">
+            <h1 class="official-title">Njoftim Zyrtar</h1>
+            <p class="official-text">Nuk ka ndonjë komunikim zyrtar për momentin. Qëndroni të informuar për përditësimet më të fundit.</p>
+        </div>
+    {% endif %}
+</div>
+
+{% endblock content %}

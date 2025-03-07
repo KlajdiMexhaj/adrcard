@@ -1,0 +1,37 @@
+{% load static %}
+<header>
+    <div class="header-container">
+        <div class="logo">
+            <a href="{% url 'home' %}"><img src="{% static 'img/ADR_logo.png'%}" alt="" ></a> <!-- Example icon, you can replace it with any other icon -->
+        </div>
+        <div class="dropdown">
+            <button class="dropdown-btn" onclick="toggleDropdown()"><i class="fa-solid fa-magnifying-glass"></i></button>
+            <div class="dropdown-content">
+                <a href="{% url 'propozimet' %}">Propozimet</a>
+                <a href="{% url 'statuti' %}">Statuti</a>
+                <a href="{% url 'programi' %}">Programi</a>
+                <a href="{% url 'axhendaeventeve' %}">Axhenda e eventeve</a>
+                <a href="{%url 'kandidatdeputet' %}">Kanditatët e partisë për deputet</a>
+                <a href="{% url 'organigrama' %}">Organigrama e partisë</a>
+                <a href="{% url 'komunikimezyrtare' %}">Komunikimet Zyrtare</a>
+            </div>
+        </div>
+    </div>
+  </header>
+
+
+
+  <div class="banner">
+    <span class="welcome-text">Mirësevini!</span>
+    {% if user %}
+        <span class="name">{{ user.emer }} {{ user.mbiemer }}</span>
+        <h4><span class="name-roli">Roli:</span> {{ user.profesioni }}</h4>
+        <h4><span class="name-roli">Statusi:</span> {{ user.status_i_kartës }}</h4>
+
+        {% if user.status_i_kartës == 'I heshtur' %}
+
+        {% endif %}
+    {% else %}
+        <span class="name">Please log in</span>
+    {% endif %}
+</div>
