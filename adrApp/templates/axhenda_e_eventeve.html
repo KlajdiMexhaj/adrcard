@@ -6,15 +6,36 @@
 
 <section class="axhendaevente">
     <div class="container">
-        <h1 class="text-center mb-5">Lista e eventeve</h1>
+       
+
+        <!-- Custom Calendar -->
+        <div class="calendar-container mb-4 text-center">
+            <label for="calendar" class="form-label text-muted"></label>
+            <div id="calendar" class="calendar">
+                <div class="calendar-header">
+                    <button class="prev-month" onclick="navigateMonth(-1)">&#60;</button>
+                    <span id="month-year" class="month-year"></span>
+                    <button class="next-month" onclick="navigateMonth(1)">&#62;</button>
+                </div>
+                <div class="calendar-days">
+                    <div class="calendar-weekdays">
+                        <span>Sun</span><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span>
+                    </div>
+                    <div class="calendar-days-grid" id="days-grid">
+                        <!-- Days will be injected here by JavaScript -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div class="row">
             {% for event in events %}
                 <div class="col-12 col-sm-6 col-md-4 mb-4">
                     <div class="card shadow-sm border-0 rounded-lg">
                         <div class="card-body">
                             <h5 class="card-title text-primary">{{ event.title }}</h5>
-                            <p class="card-text text-muted">{{ event.text|truncatewords:30 }}</p>  <!-- Truncate the description -->
-                            <!-- <p class="card-footer text-muted text-right mb-0">Created on: {{ event.date_created|date:"F d, Y" }}</p> -->
+                            <p class="card-text text-muted">{{ event.text|truncatewords:30 }}</p>
+                            <p class="card-footer text-muted text-right mb-0">Event date: {{ event.event_date|date:"F d, Y" }}</p>
                         </div>
                     </div>
                 </div>
@@ -22,6 +43,72 @@
         </div>
     </div>
 </section>
+
+<script>
+    // Get current month and year
+    const currentDate = new Date();
+    let currentMonth = currentDate.getMonth();
+    let currentYear = currentDate.getFullYear();
+
+    // Function to navigate between months
+    function navigateMonth(offset) {
+        currentMonth += offset;
+        if (currentMonth > 11) {
+            currentMonth = 0;
+            currentYear++;
+        } else if (currentMonth < 0) {
+            currentMonth = 11;
+            currentYear--;
+        }
+        renderCalendar(currentMonth, currentYear);
+    }
+
+    // Function to render calendar with dates
+    function renderCalendar(month, year) {
+        const monthYearElement = document.getElementById("month-year");
+        const daysGridElement = document.getElementById("days-grid");
+        daysGridElement.innerHTML = '';  // Clear existing days
+
+        const firstDayOfMonth = new Date(year, month, 1);
+        const lastDateOfMonth = new Date(year, month + 1, 0);
+
+        // Display month and year
+        const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+        monthYearElement.innerText = `${monthNames[month]} ${year}`;
+
+        // Get the first day of the month and the number of days in the month
+        const firstDay = firstDayOfMonth.getDay();
+        const totalDays = lastDateOfMonth.getDate();
+
+        // Create empty slots for previous month's days
+        for (let i = 0; i < firstDay; i++) {
+            const emptyDay = document.createElement("div");
+            emptyDay.classList.add("calendar-day-empty");
+            daysGridElement.appendChild(emptyDay);
+        }
+
+        // Add the actual days of the month
+        for (let day = 1; day <= totalDays; day++) {
+            const dayElement = document.createElement("div");
+            dayElement.classList.add("calendar-day");
+            dayElement.innerText = day;
+            dayElement.onclick = function() {
+                selectDate(day);
+            };
+            daysGridElement.appendChild(dayElement);
+        }
+    }
+
+    // Function to select a date and filter events
+    function selectDate(day) {
+        const selectedDate = `${currentYear}-${currentMonth + 1}-${day}`;
+        // Format the date to match the YYYY-MM-DD format for query parameter
+        window.location.href = `?date=${selectedDate}`;
+    }
+
+    // Initial rendering of the calendar
+    renderCalendar(currentMonth, currentYear);
+</script>
 
 
 {% endblock content %}

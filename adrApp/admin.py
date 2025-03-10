@@ -1,39 +1,72 @@
 from django.contrib import admin
 from .models import *
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import FileResponse,HttpResponse
 from django.template.loader import render_to_string
+from django.conf import settings
+import os
+from reportlab.pdfgen import canvas
+from .views import generate_user_pdf 
+from django.utils.html import format_html
+from django.urls import path
+from reportlab.lib.pagesizes import  landscape,letter
 # Register your models here.
+from PIL import Image
+def generate_access_card_pdf(modeladmin, request, queryset):
+    for user in queryset:
+        # Define paths
+        qr_code_path = os.path.join(settings.MEDIA_ROOT, f'qr_code/{user.guid}.jpg')
+        static_image_path = os.path.join(settings.BASE_DIR, 'adrApp', 'static', 'img', 'KARTA-ADR_page-0001.jpg')
+
+        if not os.path.exists(static_image_path):
+            raise FileNotFoundError(f"Static image not found: {static_image_path}")
+        if not os.path.exists(qr_code_path):
+            raise FileNotFoundError(f"QR code image not found: {qr_code_path}")
+
+        # Define output PDF path in Downloads
+        downloads_path = os.path.join(os.path.expanduser("~"), "Downloads", f"{user.guid}_access_card.pdf")
+
+        # Set PDF dimensions (320x210 px)
+        page_width, page_height = 320, 210
+
+        # Resize images **before** adding to PDF to avoid white borders
+        def resize_image(image_path, output_size):
+            img = Image.open(image_path)
+            img = img.resize(output_size, Image.LANCZOS)  # High-quality resizing
+            temp_path = image_path.replace(".jpg", "_resized.jpg")  # Temporary resized image
+            img.save(temp_path, quality=100)  # Save with max quality
+            return temp_path
+
+        static_resized = resize_image(static_image_path, (page_width, page_height))
+        qr_resized = resize_image(qr_code_path, (page_width, page_height))
+
+        # Create PDF
+        c = canvas.Canvas(downloads_path, pagesize=(page_width, page_height))
+
+        # Add images **full size**, no white borders
+        c.drawImage(static_resized, 0, 0, width=page_width, height=page_height, mask=None)
+        c.showPage()
+        c.drawImage(qr_resized, 0, 0, width=page_width, height=page_height, mask=None)
+        c.showPage()
+
+        c.save()
+
+        # Open the PDF automatically
+        os.startfile(downloads_path)
+
+        # Remove temp images after saving
+        os.remove(static_resized)
+        os.remove(qr_resized)
+
+    return None
+
+# Register in Django Admin
 class AnetaretAdmin(admin.ModelAdmin):
-    list_display = ('id','emer','mbiemer','status_i_kartës','guid')
-    list_display_links = ('id','emer','mbiemer','status_i_kartës')
-    search_fields = ('emer','mbiemer')
-    
-    # Add a custom action for printing the card
-    actions = ['print_card']
+    list_display = ('id', 'emer', 'mbiemer', 'status_i_kartës', 'guid')
+    list_display_links = ('id', 'emer', 'mbiemer', 'status_i_kartës')
+    search_fields = ('emer', 'mbiemer')
+    actions = [generate_access_card_pdf]
 
-    def print_card(self, request, queryset):
-        # Generate the print card for each selected user
-        for anetaret in queryset:
-            # Create a context with the unique QR code and other data for the card
-            context = {
-                'anetaret': anetaret,
-                'qr_code_url': anetaret.qr_code_path.url,  # Assuming this field stores the file path of the QR code
-            }
-
-            # Render the print card template (this will generate the HTML for the card)
-            html_content = render_to_string('printcard.html', context)
-
-            # Create the response as a PDF or HTML file (you can use a library like WeasyPrint to generate PDFs if needed)
-            response = HttpResponse(html_content, content_type='application/pdf')
-            response['Content-Disposition'] = 'inline; filename=printcard.pdf'
-
-            return response
-
-        # If nothing is selected, show a message
-        self.message_user(request, "No user selected to print.")
-    print_card.short_description = "Print Selected Cards"
-    
 admin.site.register(Anetaret, AnetaretAdmin)
 
 class PropozimetAdmin(admin.ModelAdmin):

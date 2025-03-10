@@ -31,6 +31,7 @@ class Anetaret(models.Model):
     guid = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
     emer = models.CharField(max_length=100)
     mbiemer = models.CharField(max_length=100)
+    karta_identitetit= models.CharField(max_length=20, unique=True,null=True,blank=True)
     nr_tel = models.CharField(max_length=15)
     email = models.EmailField(unique=True)
     gjinia = models.CharField(max_length=10, choices=GJINIA_CHOICES)
@@ -148,6 +149,7 @@ class Propozimet_per_Votim(models.Model):
 class Event(models.Model):
     title = models.CharField(max_length=200)
     text = models.TextField()
+    event_date = models.DateField(null=True,blank=True)
     date_created = models.DateTimeField(auto_now_add=True)
     class Meta:
         ordering = ['-date_created']

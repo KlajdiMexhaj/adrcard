@@ -29,6 +29,9 @@ from django.conf import settings
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from PIL import Image, ImageDraw, ImageFont, ImageWin
+from reportlab.pdfgen import canvas
+from reportlab.lib.pagesizes import letter
+from django.http import FileResponse
 
 load_dotenv()
 
@@ -71,7 +74,7 @@ def call_another_api(auth_code, number):
 
 def generate_qr_code_for_anetaret(instance):
     # Ensure the GUID-based URL for the QR code
-    url = f"http://192.168.10.215:8000/{instance.guid}/"  # The GUID is now part of the actual URL
+    url = f"https://karta.adr.al/{instance.guid}/"  # The GUID is now part of the actual URL
 
     # Generate the QR code
     qr = qrcode.make(url)
@@ -109,11 +112,18 @@ def generate_qr_code(sender, instance, created, **kwargs):
 
 
 
+from PIL import Image, ImageDraw, ImageFont
+from reportlab.lib.pagesizes import letter
+from reportlab.pdfgen import canvas
+from django.contrib.staticfiles import finders
+from django.http import HttpResponse
+from io import BytesIO
+
 def create_access_card(user_data, template_path="img/KARTA-ADR_page-0002.jpg"):
     # Load the template
     template_path = finders.find(template_path)
     template = Image.open(template_path)
-    
+
     # Generate the QR code with user data
     qr_img = generate_qr(f"https://karta.adr.al/{user_data.guid}/")
 
@@ -125,12 +135,12 @@ def create_access_card(user_data, template_path="img/KARTA-ADR_page-0002.jpg"):
 
     # Define the font for the text (you can customize it if needed)
     try:
-        font = ImageFont.truetype("arial.ttf", 16)  # Use a system font or provide a font path
+        font = ImageFont.truetype("arial.ttf", 25)  # Use a system font or provide a font path
     except IOError:
         font = ImageFont.load_default()  # Fallback to default if the font isn't available
 
     # Get the text from user_data
-    text = f"{user_data.id}. {user_data.emer} {user_data.mbiemer}" 
+    text = f"{user_data.id}. {user_data.emer} {user_data.mbiemer}"
 
     # Paste the QR code onto the template
     template.paste(qr_img, qr_position)
@@ -139,11 +149,12 @@ def create_access_card(user_data, template_path="img/KARTA-ADR_page-0002.jpg"):
     draw.text(name_position, text, font=font, fill="white")
     # Save the final image
     output_path = f"media/qr_code/{user_data.guid}.jpg"
-    template.save(output_path)
+    template.save(output_path, quality=100, optimize=True)
 
     # Show or print the final access card
     template.show()  # This will open the image preview
     return output_path
+
 
 def generate_qr(data, qr_size=100):
     qr = qrcode.QRCode(
@@ -160,6 +171,44 @@ def generate_qr(data, qr_size=100):
     return qr_img
 
 
+def generate_user_pdf(request, user_id):
+    from .models import Anetaret  # Import the model inside the function to avoid circular imports
+
+    # Get user data
+    try:
+        user = Anetaret.objects.get(id=user_id)
+    except Anetaret.DoesNotExist:
+        return HttpResponse("User not found", status=404)
+
+    # Define image paths
+    front_image_path = os.path.join(settings.STATIC_ROOT, "img/KARTA-ADR_page-0001.jpg")
+    qr_code_path = os.path.join(settings.MEDIA_ROOT, f"qr_code/{user.guid}.jpg")
+
+    # Check if images exist
+    if not os.path.exists(front_image_path) or not os.path.exists(qr_code_path):
+        return HttpResponse("One or both images not found", status=404)
+
+    # Create an in-memory PDF
+    from io import BytesIO
+    pdf_buffer = BytesIO()
+    c = canvas.Canvas(pdf_buffer, pagesize=letter)
+
+    # Add first image (front template)
+    c.drawImage(front_image_path, 0, 300, width=600, height=400)
+
+    # Add second image (QR code)
+    c.drawImage(qr_code_path, 200, 100, width=200, height=200)
+
+    # Finish the PDF
+    c.showPage()
+    c.save()
+
+    # Prepare PDF response
+    pdf_buffer.seek(0)
+    response = FileResponse(pdf_buffer, content_type='application/pdf')
+    response['Content-Disposition'] = f'inline; filename="{user.guid}_access_card.pdf"'
+
+    return response
 
 
 
@@ -551,7 +600,18 @@ def axhendaeventeve(request):
         except Anetaret.DoesNotExist:
             pass  # Handle missing user gracefully
 
-    events = Event.objects.all()  # Fetch all events from the database
+    # Get the selected date from the request
+    selected_date = request.GET.get('date', None)
+
+    # If a date is selected, filter the events by that date
+    if selected_date:
+        try:
+            selected_date = datetime.strptime(selected_date, "%Y-%m-%d").date()
+            events = Event.objects.filter(event_date=selected_date)
+        except ValueError:
+            events = Event.objects.all()  # If the date is invalid, show all events
+    else:
+        events = Event.objects.all()  # Show all events if no date is selected
 
     context = {
         "user": user,
@@ -600,7 +660,7 @@ def organigrama(request):
 
 def asambleja(request):
     user = None
-    anetaret_aktive = Anetaret.objects.filter(status_i_kartës='Aktiv')
+
     if 'user_id' in request.session:
         try:
             user = Anetaret.objects.get(id=request.session['user_id'])
@@ -610,7 +670,7 @@ def asambleja(request):
 
     context = {
         "user": user,
-        "anetaret_aktive": anetaret_aktive,
+
     }
     return render(request,"asambleja.html",context)    
 
