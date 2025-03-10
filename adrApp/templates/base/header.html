@@ -25,7 +25,9 @@
     <span class="welcome-text">Mirësevini!</span>
     {% if user %}
         <span class="name">{{ user.emer }} {{ user.mbiemer }}</span>
-        <h4><span class="name-roli">Roli:</span> {{ user.profesioni }}</h4>
+        {% if user.roli_anetarit %}
+            <h4><span class="name-roli">Roli:</span> {{ user.roli_anetarit }}</h4> 
+        {% endif %}
         <h4><span class="name-roli">Statusi:</span> {{ user.status_i_kartës }}</h4>
 
         {% if user.status_i_kartës == 'I heshtur' %}

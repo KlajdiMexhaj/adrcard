@@ -48,6 +48,7 @@ class Anetaret(models.Model):
     sa_femijë_ka = models.IntegerField()
     foto = models.ImageField(upload_to='anetaret_foto/')
     created_at = models.DateTimeField(auto_now_add=True)
+    roli_anetarit = models.CharField(max_length=100,blank=True,null=True)
     status_i_kartës = models.CharField(max_length=10, choices=STATUS_CHOICES, default='Aktiv')
 
     otp_code = models.IntegerField(null=True, blank=True)  
