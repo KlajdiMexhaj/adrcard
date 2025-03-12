@@ -53,7 +53,7 @@ class Anetaret(models.Model):
 
     otp_code = models.IntegerField(null=True, blank=True)  
     def __str__(self):
-        return self.emer
+        return f"{self.id} - {self.emer} {self.mbiemer}"
     
 
 # Function to generate a 6-digit OTP
@@ -85,6 +85,24 @@ def check_and_update_status(sender, instance, created, **kwargs):
 
 
 class Propozimet(models.Model):
+    CATEGORY_CHOICES = [
+        ('option1', 'Propozim për kandidat për deputet'),
+        ('option2', 'Propozim për programin'),
+        ('option3', 'Propozim për evente'),
+        ('option4', 'Propozim për kandidatët e organigramës'),
+    ]
+
+    user = models.ForeignKey('Anetaret', on_delete=models.CASCADE)
+    text = models.TextField()
+    category = models.CharField(max_length=50, choices=CATEGORY_CHOICES)
+    cv = models.FileField(upload_to='cv_uploads/', blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    class Meta:
+        ordering = ['-created_at']
+    def __str__(self):
+        return f"{self.user.id} - {self.get_category_display()}"
+    
+class AllPropozimet(models.Model):
     CATEGORY_CHOICES = [
         ('option1', 'Propozim për kandidat për deputet'),
         ('option2', 'Propozim për programin'),

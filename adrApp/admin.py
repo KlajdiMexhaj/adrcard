@@ -69,11 +69,18 @@ class AnetaretAdmin(admin.ModelAdmin):
 
 admin.site.register(Anetaret, AnetaretAdmin)
 
+class AllPropozimetAdmin(admin.ModelAdmin):
+    list_display = ('id','user', 'category', 'created_at', 'cv')  # Add 'cv' to the list_display
+    list_filter = ('category', 'created_at')  # Optionally add filters
+    search_fields = ('user__id','user__emer', 'user__mbiemer', 'category')  # Optionally add search functionality for user or category
+    autocomplete_fields = ['user']
+admin.site.register(AllPropozimet, AllPropozimetAdmin)
+
 class PropozimetAdmin(admin.ModelAdmin):
     list_display = ('id','user', 'category', 'created_at', 'cv')  # Add 'cv' to the list_display
     list_filter = ('category', 'created_at')  # Optionally add filters
-    search_fields = ('user__emer', 'category')  # Optionally add search functionality for user or category
-
+    search_fields = ('user__emer', 'user__mbiemer', 'category')  # Optionally add search functionality for user or category
+    autocomplete_fields = ['user']
 admin.site.register(Propozimet, PropozimetAdmin)
 class PropozimetStatusAdmin(admin.ModelAdmin):
     # Specify the fields to display in the list view of the admin

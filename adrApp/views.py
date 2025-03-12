@@ -302,7 +302,7 @@ def propozimet(request):
 
 
         if text_input and category:
-            Propozimet.objects.create(user=user, text=text_input, category=category, cv=cv)
+            AllPropozimet.objects.create(user=user, text=text_input, category=category, cv=cv)
             
             return redirect("propozimet")  # Redirect to avoid form resubmission issues
 
